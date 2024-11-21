@@ -1,5 +1,3 @@
-#conexion a momgoDb
-
 from pymongo import MongoClient
 
 class Database:
@@ -9,7 +7,7 @@ class Database:
         self.parallel_collection = self.db["parallel_results"]
         self.concurrent_collection = self.db["concurrent_results"]
 
-    def insert_result(self, algorithm, execution_type, metrics):
+    def insert_result(self, algorithm, execution_type, metrics, input_type, input_size):
         document = {
             "algorithm": algorithm,
             "time": metrics["time"],
@@ -17,7 +15,9 @@ class Database:
             "cpu": metrics["cpu"],
             "disk": metrics["disk"],
             "wait_time": metrics["wait_time"],
-            "result": metrics["result"]
+            "result": metrics["result"],
+            "input_type": input_type,
+            "input_size": input_size
         }
         if execution_type == "parallel":
             return self.parallel_collection.insert_one(document)

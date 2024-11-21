@@ -5,6 +5,7 @@ from benchmark import benchmark, visualize_parallel_execution
 from utils import parse_input
 from script_generator_archive import select_file_size
 from database import Database
+import os
 
 def run_benchmark(algorithm, input_type, input_data):
     algorithms = {
@@ -20,9 +21,12 @@ def run_benchmark(algorithm, input_type, input_data):
 
     if input_type == "text":
         input_data = parse_input(input_data)
+        input_size = len(input_data)
+    else:
+        input_size = os.path.getsize(input_data)
 
     print(f"\nEvaluando {algorithm} en modo paralelo...")
-    parallel_metrics = benchmark(selected_algorithm["parallel"], input_data, algorithm, "parallel")
+    parallel_metrics = benchmark(selected_algorithm["parallel"], input_data, algorithm, "parallel", input_type, input_size)
     print("Resultado (Paralelo):", parallel_metrics["result"])
     print(f"Tiempo (Paralelo): {parallel_metrics['time']} segundos")
     print(f"Uso de memoria (Paralelo): {parallel_metrics['memory']} MB")
@@ -34,7 +38,7 @@ def run_benchmark(algorithm, input_type, input_data):
     visualize_parallel_execution(selected_algorithm["parallel"], input_data)
 
     print(f"\nEvaluando {algorithm} en modo concurrente...")
-    concurrent_metrics = benchmark(selected_algorithm["concurrent"], input_data, algorithm, "concurrent")
+    concurrent_metrics = benchmark(selected_algorithm["concurrent"], input_data, algorithm, "concurrent", input_type, input_size)
     print("Resultado (Concurrente):", concurrent_metrics["result"])
     print(f"Tiempo (Concurrente): {concurrent_metrics['time']} segundos")
     print(f"Uso de memoria (Concurrente): {concurrent_metrics['memory']} MB")
@@ -56,6 +60,8 @@ def display_all_results():
         print(f"Uso de Disco: {result['disk']} MB/s")
         print(f"Tiempo de Espera: {result['wait_time']} ms")
         print(f"Resultado del hash: {result['result']}")
+        print(f"Tipo de entrada: {result['input_type']}")
+        print(f"Tamaño de entrada: {result['input_size']} {'bytes' if result['input_type'] == 'file' else 'caracteres'}")
         print("-" * 40)
 
     print("\nResultados de ejecuciones concurrentes:")
@@ -67,6 +73,8 @@ def display_all_results():
         print(f"Uso de Disco: {result['disk']} MB/s")
         print(f"Tiempo de Espera: {result['wait_time']} ms")
         print(f"Resultado del hash: {result['result']}")
+        print(f"Tipo de entrada: {result['input_type']}")
+        print(f"Tamaño de entrada: {result['input_size']} {'bytes' if result['input_type'] == 'file' else 'caracteres'}")
         print("-" * 40)
 
 def main():

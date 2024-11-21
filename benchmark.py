@@ -38,7 +38,7 @@ class ResultThread(threading.Thread):
         self.result = self._target(*self._args)
         print(f"Hilo: {self.name}, Identificador: {self.ident}, Función: {self._target.__name__}")
 
-def benchmark(algorithm_func, input_data, algorithm_name, execution_type):
+def benchmark(algorithm_func, input_data, algorithm_name, execution_type, input_type, input_size):
     result_thread = ResultThread(target=measure_hash, args=(algorithm_func, input_data))
     time_thread = ResultThread(target=measure_time, args=(algorithm_func, input_data))
     memory_thread = ResultThread(target=measure_memory)
@@ -67,7 +67,7 @@ def benchmark(algorithm_func, input_data, algorithm_name, execution_type):
 
     # Almacenar resultados en la base de datos
     db = Database()
-    db.insert_result(algorithm_name, execution_type, metrics)
+    db.insert_result(algorithm_name, execution_type, metrics, input_type, input_size)
     db.close()
 
     return metrics
