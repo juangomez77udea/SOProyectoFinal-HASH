@@ -1,6 +1,15 @@
 # SOProyectoFinal-HASH
 Proyecto final Sistemas Operativos
 
+# Implementación
+Para la implementación del proyecto usamos anaconda en la version 24.9.2. La codificación se utilzó python en la version 3.12.7.
+Para el interprete de python se usó anaconda3, así:
+
+![img.png](img.png)
+
+![img_2.png](img_2.png)
+
+
 # Librerias Usadas:
 
 ## [Multiprocessing](https://docs.python.org/es/3.9/library/multiprocessing.html):
@@ -15,3 +24,9 @@ La objetos tipo hilo de la clase thread, representa una actividad que recorre en
 
 ## [psutil 6.1.0](https://pypi.org/project/psutil/):
 Es una bilbioteca que nos sirve para recuperar información sobre procesos en ejecución y utilización del  sistema.
+
+## [OS:](https://docs.python.org/es/3.10/library/os.html)
+Esta módulo nos provee una manera de usar fucionalidades dependientes del sistema operativo tales como leer o escribir un archivo, manipular rutas, leer lineas de los archivos, crear archivos temporales, entre otros.
+
+## [Time](https://docs.python.org/es/3.13/library/time.html): 
+Esta módulo proporciona funciones
