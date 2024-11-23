@@ -1,5 +1,5 @@
-# utils.py
-#Función para leer archivos y convertir datos de entrada.
+import random
+import string
 
 def read_file_in_blocks(file_path, block_size=65536):
     with open(file_path, 'rb') as f:
@@ -8,7 +8,6 @@ def read_file_in_blocks(file_path, block_size=65536):
             if not block:
                 break
             yield block
-
 
 def parse_input(input_string):
     # Split the input string by commas and strip whitespace
@@ -20,3 +19,6 @@ def parse_input(input_string):
 
     # If there are multiple inputs, return them as a list
     return inputs
+
+def generate_random_string(length):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))

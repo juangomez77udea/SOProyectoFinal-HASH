@@ -2,11 +2,10 @@ from sha256_hash import sha256_parallel, sha256_concurrent
 from md5_hash import md5_parallel, md5_concurrent
 from blake_hash import blake_parallel, blake_concurrent
 from benchmark import benchmark, visualize_parallel_execution
-from utils import parse_input
+from utils import parse_input, generate_random_string
 from script_generator_archive import select_file_size
 from database import Database
 import os
-
 
 def run_benchmark(algorithm, input_type, input_data, num_executions):
     algorithms = {
@@ -52,7 +51,6 @@ def run_benchmark(algorithm, input_type, input_data, num_executions):
         print(f"Uso de disco (Concurrente): {concurrent_metrics['disk']} MB/s")
         print(f"Tiempo de espera entre procesos (Concurrente): {concurrent_metrics['wait_time']} ms")
 
-
 def display_all_results():
     db = Database()
     results = db.get_all_results()
@@ -86,7 +84,6 @@ def display_all_results():
             f"Tamaño de entrada: {result['input_size']} {'bytes' if result['input_type'] == 'file' else 'caracteres'}")
         print("-" * 40)
 
-
 def main():
     while True:
         print("\nSelecciona una opción:")
@@ -113,7 +110,12 @@ def main():
                 file_option = input("Opción: ")
                 input_data = select_file_size(file_option)
             else:
-                input_data = input("Introduce los datos a hashear: ")
+                print("\nSelecciona el Tamaño de la Cadena a Generar:")
+                print("1 - 6 caracteres\n2 - 12 caracteres\n3 - 18 caracteres\n4 - 24 caracteres\n5 - 32 caracteres")
+                string_option = int(input("Opción: "))
+                string_sizes = {1: 6, 2: 12, 3: 18, 4: 24, 5: 32}
+                input_data = generate_random_string(string_sizes.get(string_option, 6))
+                print(f"Cadena generada: {input_data}")
 
             num_executions = int(input("Introduce el número de veces que deseas ejecutar el benchmark: "))
             run_benchmark(algorithm, input_type, input_data, num_executions)
@@ -123,7 +125,6 @@ def main():
             break
         else:
             print("Opción no válida. Intente de nuevo.")
-
 
 if __name__ == "__main__":
     main()
