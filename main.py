@@ -106,7 +106,7 @@ def main():
 
             if input_type == "file":
                 print("\nSelecciona el Tamaño del Archivo a Generar:")
-                print("1 - 1 MB\n2 - 5 MB\n3 - 10 MB\n4 - 50 MB\n5 - 100 MB")
+                print("1 - 1 MB\n2- 5 MB\n3 - 10 MB\n4 - 50 MB\n5 - 100 MB")
                 file_option = input("Opción: ")
                 input_data = select_file_size(file_option)
             else:
@@ -128,3 +128,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

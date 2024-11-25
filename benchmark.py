@@ -8,7 +8,6 @@ import psutil
 
 from database import Database
 
-
 def measure_hash(algorithm_func, input_data):
     return algorithm_func(input_data)
 
@@ -112,3 +111,4 @@ def visualize_parallel_execution(algorithm_func, input_data):
     plt.close()
 
     print(f"Gráfico de ejecución paralela guardado como 'parallel_execution.png'")
+
