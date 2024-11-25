@@ -1,6 +1,6 @@
 import hashlib
 import multiprocessing
-from functools import partial
+
 
 
 def md5_hash(input_data):
@@ -16,8 +16,8 @@ def md5_hash(input_data):
     return hash_obj.hexdigest()
 
 
-def md5_parallel(input_data, min_chunk_size=1024 * 1024):  # 1MB minimum chunk size
-    if len(input_data) < min_chunk_size * 2:  # If input is too small, use sequential
+def md5_parallel(input_data, min_chunk_size=1024 * 1024):
+    if len(input_data) < min_chunk_size * 2:
         return md5_hash(input_data)
 
     cores = multiprocessing.cpu_count()

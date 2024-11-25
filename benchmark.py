@@ -95,7 +95,7 @@ def visualize_parallel_execution(algorithm_func, input_data):
     while not result_queue.empty():
         results.append(result_queue.get())
 
-    # Visualización
+    # Creacion de graficas
     fig, ax = plt.subplots(figsize=(12, 6))
 
     for core_id, start_time, end_time in results:

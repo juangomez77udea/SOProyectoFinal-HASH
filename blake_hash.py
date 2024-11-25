@@ -1,6 +1,5 @@
 import hashlib
 import multiprocessing
-from functools import partial
 
 
 def blake_hash(input_data):
@@ -16,8 +15,8 @@ def blake_hash(input_data):
     return hash_obj.hexdigest()
 
 
-def blake_parallel(input_data, min_chunk_size=1024 * 1024):  # 1MB minimum chunk size
-    if len(input_data) < min_chunk_size * 2:  # If input is too small, use sequential
+def blake_parallel(input_data, min_chunk_size=1024 * 1024):
+    if len(input_data) < min_chunk_size * 2:
         return blake_hash(input_data)
 
     cores = multiprocessing.cpu_count()
@@ -27,7 +26,7 @@ def blake_parallel(input_data, min_chunk_size=1024 * 1024):  # 1MB minimum chunk
     with multiprocessing.Pool() as pool:
         results = pool.map(blake_hash, chunks)
 
-    # Combine partial hashes
+    # Combina los hashes pparciales
     combined_hash = hashlib.blake2b()
     for partial_hash in results:
         combined_hash.update(bytes.fromhex(partial_hash))

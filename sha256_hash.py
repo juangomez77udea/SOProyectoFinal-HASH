@@ -1,6 +1,5 @@
 import hashlib
 import multiprocessing
-from functools import partial
 
 
 def sha256_hash(input_data):
@@ -16,8 +15,8 @@ def sha256_hash(input_data):
     return hash_obj.hexdigest()
 
 
-def sha256_parallel(input_data, min_chunk_size=1024 * 1024):  # 1MB minimum chunk size
-    if len(input_data) < min_chunk_size * 2:  # If input is too small, use sequential
+def sha256_parallel(input_data, min_chunk_size=1024 * 1024):
+    if len(input_data) < min_chunk_size * 2:
         return sha256_hash(input_data)
 
     cores = multiprocessing.cpu_count()
