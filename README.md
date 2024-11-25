@@ -5,9 +5,10 @@ Proyecto final Sistemas Operativos
 Para la implementación del proyecto usamos anaconda en la version 24.9.2. La codificación se utilzó python en la version 3.12.7.
 Para el interprete de python se usó anaconda3, así:
 
-![img.png](img.png)
+![image](https://github.com/user-attachments/assets/ec927791-4a6d-4dd5-91a3-bdf96edaa8d0)
 
-![img_2.png](img_2.png)
+![image](https://github.com/user-attachments/assets/1dea2ec9-e9df-489f-8f1d-2ae018479add)
+
 
 
 # Librerias Usadas:
