@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 class Database:
-    def __init__(self, database_name="hash_benchmark-v2"):
+    def __init__(self, database_name="hash_benchmark-v3"):
         self.client = MongoClient('localhost', 27017)
         self.db = self.client[database_name]
         self.parallel_collection = self.db["parallel_results"]

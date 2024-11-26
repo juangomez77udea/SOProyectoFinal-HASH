@@ -1,6 +1,6 @@
 import hashlib
 import multiprocessing
-
+from concurrent.futures import ThreadPoolExecutor
 
 def blake_hash(input_data):
     if isinstance(input_data, str):
@@ -14,7 +14,6 @@ def blake_hash(input_data):
     hash_obj.update(data)
     return hash_obj.hexdigest()
 
-
 def blake_parallel(input_data, min_chunk_size=1024 * 1024):
     if len(input_data) < min_chunk_size * 2:
         return blake_hash(input_data)
@@ -26,24 +25,33 @@ def blake_parallel(input_data, min_chunk_size=1024 * 1024):
     with multiprocessing.Pool() as pool:
         results = pool.map(blake_hash, chunks)
 
-    # Combina los hashes pparciales
     combined_hash = hashlib.blake2b()
     for partial_hash in results:
         combined_hash.update(bytes.fromhex(partial_hash))
 
     return combined_hash.hexdigest()
 
+def blake_concurrent(input_data, min_chunk_size=1024 * 1024):
+    if len(input_data) < min_chunk_size * 2:
+        return blake_hash(input_data)
 
-def blake_concurrent(input_data):
-    return blake_hash(input_data)
+    cores = multiprocessing.cpu_count()
+    chunk_size = max(min_chunk_size, len(input_data) // cores)
+    chunks = [input_data[i:i + chunk_size] for i in range(0, len(input_data), chunk_size)]
 
+    with ThreadPoolExecutor(max_workers=cores) as executor:
+        results = list(executor.map(blake_hash, chunks))
+
+    combined_hash = hashlib.blake2b()
+    for partial_hash in results:
+        combined_hash.update(bytes.fromhex(partial_hash))
+
+    return combined_hash.hexdigest()
 
 def blake_file_parallel(file_path):
     with open(file_path, 'rb') as file:
         return blake_parallel(file.read())
 
-
 def blake_file_concurrent(file_path):
     with open(file_path, 'rb') as file:
         return blake_concurrent(file.read())
-

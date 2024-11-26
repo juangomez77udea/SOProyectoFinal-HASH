@@ -1,7 +1,7 @@
 from sha256_hash import sha256_parallel, sha256_concurrent
 from md5_hash import md5_parallel, md5_concurrent
 from blake_hash import blake_parallel, blake_concurrent
-from benchmark import benchmark, visualize_parallel_execution
+from benchmark import parallel_benchmark, concurrent_benchmark, visualize_parallel_execution
 from utils import parse_input, generate_random_string
 from script_generator_archive import select_file_size
 from database import Database
@@ -29,26 +29,22 @@ def run_benchmark(algorithm, input_type, input_data, num_executions):
         print(f"\nEjecución {i + 1} de {num_executions}")
 
         print(f"\nEvaluando {algorithm} en modo paralelo...")
-        parallel_metrics = benchmark(selected_algorithm["parallel"], input_data, algorithm, "parallel", input_type,
-                                     input_size)
+        parallel_metrics = parallel_benchmark(selected_algorithm["parallel"], input_data, algorithm, input_type, input_size)
         print("Resultado (Paralelo):", parallel_metrics["result"])
         print(f"Tiempo (Paralelo): {parallel_metrics['time']} segundos")
         print(f"Uso de memoria (Paralelo): {parallel_metrics['memory']} MB")
         print(f"Uso de CPU (Paralelo): {parallel_metrics['cpu']}%")
-        print(f"Uso de disco (Paralelo): {parallel_metrics['disk']} MB/s")
         print(f"Tiempo de espera entre procesos (Paralelo): {parallel_metrics['wait_time']} ms")
 
         print(f"\nVisualizando ejecución paralela...")
         visualize_parallel_execution(selected_algorithm["parallel"], input_data)
 
         print(f"\nEvaluando {algorithm} en modo concurrente...")
-        concurrent_metrics = benchmark(selected_algorithm["concurrent"], input_data, algorithm, "concurrent",
-                                       input_type, input_size)
+        concurrent_metrics = concurrent_benchmark(selected_algorithm["concurrent"], input_data, algorithm, input_type, input_size)
         print("Resultado (Concurrente):", concurrent_metrics["result"])
         print(f"Tiempo (Concurrente): {concurrent_metrics['time']} segundos")
         print(f"Uso de memoria (Concurrente): {concurrent_metrics['memory']} MB")
         print(f"Uso de CPU (Concurrente): {concurrent_metrics['cpu']}%")
-        print(f"Uso de disco (Concurrente): {concurrent_metrics['disk']} MB/s")
         print(f"Tiempo de espera entre procesos (Concurrente): {concurrent_metrics['wait_time']} ms")
 
 def display_all_results():
@@ -62,7 +58,6 @@ def display_all_results():
         print(f"Tiempo: {result['time']} segundos")
         print(f"Uso de Memoria: {result['memory']} MB")
         print(f"Uso de CPU: {result['cpu']}%")
-        print(f"Uso de Disco: {result['disk']} MB/s")
         print(f"Tiempo de Espera: {result['wait_time']} ms")
         print(f"Resultado del hash: {result['result']}")
         print(f"Tipo de entrada: {result['input_type']}")
@@ -76,7 +71,6 @@ def display_all_results():
         print(f"Tiempo: {result['time']} segundos")
         print(f"Uso de Memoria: {result['memory']} MB")
         print(f"Uso de CPU: {result['cpu']}%")
-        print(f"Uso de Disco: {result['disk']} MB/s")
         print(f"Tiempo de Espera: {result['wait_time']} ms")
         print(f"Resultado del hash: {result['result']}")
         print(f"Tipo de entrada: {result['input_type']}")
@@ -106,7 +100,7 @@ def main():
 
             if input_type == "file":
                 print("\nSelecciona el Tamaño del Archivo a Generar:")
-                print("1 - 1 MB\n2- 5 MB\n3 - 10 MB\n4 - 50 MB\n5 - 100 MB")
+                print("1 - 1 MB\n2 - 5 MB\n3 - 10 MB\n4 - 50 MB\n5 - 100 MB")
                 file_option = input("Opción: ")
                 input_data = select_file_size(file_option)
             else:
@@ -128,4 +122,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
