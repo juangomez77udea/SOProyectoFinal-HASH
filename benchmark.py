@@ -19,6 +19,10 @@ def measure_cpu():
 def measure_wait_time():
     return sum(thread.native_id or 0 for thread in threading.enumerate()) / 1000000
 
+def print_thread_info():
+    for thread in threading.enumerate():
+        print(f"Hilo: {thread.name}, Identificador: {thread.ident}, Nativo ID: {thread.native_id}")
+
 def parallel_benchmark(hash_func, input_data, algorithm, input_type, input_size):
     with ProcessPoolExecutor() as executor:
         future_time = executor.submit(measure_time, hash_func, input_data)
@@ -38,6 +42,9 @@ def parallel_benchmark(hash_func, input_data, algorithm, input_type, input_size)
         "wait_time": wait_time,
         "result": result
     }
+
+    print("\nInformación de hilos (Paralelo):")
+    print_thread_info()
 
     # Guardar en la base de datos
     from database import Database
@@ -66,6 +73,9 @@ def concurrent_benchmark(hash_func, input_data, algorithm, input_type, input_siz
         "wait_time": wait_time,
         "result": result
     }
+
+    print("\nInformación de hilos (Concurrente):")
+    print_thread_info()
 
     # Guardar en la base de datos
     from database import Database
