@@ -1,32 +1,25 @@
 from pymongo import MongoClient
+import json
+import os
 
 class Database:
-    def __init__(self, database_name="hash_benchmark-v3"):
+    def __init__(self, version):
         self.client = MongoClient('localhost', 27017)
-        self.db = self.client[database_name]
-        self.parallel_collection = self.db["parallel_results"]
-        self.concurrent_collection = self.db["concurrent_results"]
+        self.db = self.client[f"dataset-{version}"]
 
-    def insert_result(self, algorithm, execution_type, metrics, input_type, input_size):
-        document = {
-            "algorithm": algorithm,
-            "time": metrics["time"],
-            "memory": metrics["memory"],
-            "cpu": metrics["cpu"],
-            "wait_time": metrics["wait_time"],
-            "result": metrics["result"],
-            "input_type": input_type,
-            "input_size": input_size
-        }
-        if execution_type == "parallel":
-            return self.parallel_collection.insert_one(document)
-        elif execution_type == "concurrent":
-            return self.concurrent_collection.insert_one(document)
+    def insert_result(self, algorithm, execution_type, input_type, input_size, metrics):
+        collection_name = f"hash_benchmark-{execution_type}_{input_type}_results-{input_size}"
+        collection = self.db[collection_name]
+        collection.insert_one(metrics)
 
-    def get_all_results(self):
-        parallel_results = list(self.parallel_collection.find())
-        concurrent_results = list(self.concurrent_collection.find())
-        return {"parallel": parallel_results, "concurrent": concurrent_results}
+    def save_to_json(self, output_dir):
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        for collection_name in self.db.list_collection_names():
+            file_path = os.path.join(output_dir, f"{collection_name}.json")
+            with open(file_path, 'w') as f:
+                json.dump(list(self.db[collection_name].find({}, {'_id': 0})), f, indent=2)
 
     def close(self):
         self.client.close()
