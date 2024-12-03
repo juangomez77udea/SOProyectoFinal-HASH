@@ -45,6 +45,28 @@ Resultados:
 
 ![resultados](https://github.com/user-attachments/assets/58d66670-b9a3-4f00-8997-d56e1946665c)
 
+Para la `v-4` la ejecución cambió un poco con respecto a la `v-3`, para esta versión optamos por tener una ejecucción mas automatizada que hará lo mismo de la version anterior pero directamente con todos los algortimos a evaluar:
+
+Ingresamos el la version de la base de datos, sin espacios:
+
+![image](https://github.com/user-attachments/assets/f75c7e6b-458d-4e0d-bb1b-303038935f2b)
+
+Se ingresa la cantidad de veces que se quiere ejecutar el algortimo:
+
+![image](https://github.com/user-attachments/assets/ba051444-33ca-442f-b9b9-a02fe95476ca)
+
+La ejecución del programa muestra las siguientes resultados:
+
+![image](https://github.com/user-attachments/assets/b676d82a-5c58-4f04-9679-4f3ae7a4ef2b)
+
+y el programa nos indica que la base de datos fue almacenada con el nombre que se le ingreso al princiopio y no indica la creacion del la grafica comprativa de velocidad:
+
+![image](https://github.com/user-attachments/assets/562851f4-0949-46d3-b801-bcd4b0b4a3ce)
+ 
+
+
+
+
 
 # Librerias Usadas:
 
